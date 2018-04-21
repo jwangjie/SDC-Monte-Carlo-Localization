@@ -27,7 +27,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// x, y, theta and their uncertainties from GPS) and all weights to 1. 
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
-	num_particles = 20;
+	num_particles = 10;
 
 	// generate normal distributions for x, y, and theta 
 
@@ -105,11 +105,12 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 	// Find the predicted measurement that is closest to each observed measurement and assign the 
 	// observed measurement to this particular landmark using nearest neighbor algorithm. 
 	// use it as a helper during the updateWeights phase.
+
 	for (int i = 0; i < observations.size(); i++){
 		// current observation
 		LandmarkObs curr_observation = observations[i];
 
-		// initialize the minumum distance to 2 * sensor_range 
+		// initialize the minumum distance to 2 sensor_range 
 		double minimum_dist = sensor_range * 2.0;
 
 		// initialize the observed landmark id to be -1
@@ -140,6 +141,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   according to the MAP'S coordinate system. You will need to transform between the two systems.
 
 	// loop each particle
+	double weight_normalizer = 0.0;
+
 	for (int i = 0; i < num_particles; i++){
 
 		//retrive particle states
@@ -154,7 +157,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		// loop each landmark of the map
 		for (int j = 0; j < map_landmarks.landmark_list.size(); j++){
 			Map::single_landmark_s position_landmark = map_landmarks.landmark_list[j];
-			double distance = dist(p_x, p_y, position_landmark.x_f, position_landmark.y_f); /////////////////double float mix use
+
+			double distance = dist(p_x, p_y, position_landmark.x_f, position_landmark.y_f); 
 			if (distance < sensor_range){
 				range_landmarks.push_back(LandmarkObs{position_landmark.id_i, position_landmark.x_f, position_landmark.y_f});
 			}
@@ -199,16 +203,20 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			}
 		}
 
+		weight_normalizer += particles[i].weight;
+	}
+	// get all particles weight
+	vector<double> weights;
+	for (int i = 0; i < num_particles; i++){
+		particles[i].weight /= weight_normalizer;
+		weights.push_back(particles[i].weight);
 	}
 }
 
 void ParticleFilter::resample() {
 	// Resample particles with replacement with probability proportional to their weight. 
 
-	// get all particles weight
-	for (int i = 0; i < num_particles; i++){
-		weights.push_back(particles[i].weight);
-	}
+
 
 	// generate discrete distribution based on weights
 	default_random_engine gen;
@@ -216,8 +224,10 @@ void ParticleFilter::resample() {
 
 	// resample particles according to weights
 	vector<Particle> resample_particles;
+	resample_particles.resize(num_particles);
+
 	for (int i = 0; i < num_particles; i++){
-		resample_particles.push_back(particles[distribution(gen)]);
+		resample_particles[i] = particles[distribution(gen)];
 	}
 
 	particles = resample_particles;
