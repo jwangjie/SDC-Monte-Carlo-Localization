@@ -108,7 +108,8 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 
 	for (int i = 0; i < observations.size(); i++){
 		// current observation
-		LandmarkObs curr_observation = observations[i];
+		//LandmarkObs curr_observation = observations[i];
+		LandmarkObs & curr_observation = observations[i];
 
 		// initialize the minumum distance to 2 sensor_range 
 		double minimum_dist = sensor_range * 2.0;
@@ -118,7 +119,8 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 
 		for (int j = 0; j < predicted.size(); j++){
 			//current predicted 
-			LandmarkObs curr_prediction = predicted[i];
+			//LandmarkObs curr_prediction = predicted[i]; ////////////////////////// errors
+			LandmarkObs curr_prediction = predicted[j];
 
 			// distance 
 			double current_dist = dist(curr_observation.x, curr_observation.y, curr_prediction.x, curr_prediction.y);
@@ -205,18 +207,16 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 		weight_normalizer += particles[i].weight;
 	}
-	// get all particles weight
-	vector<double> weights;
+	//vector<double> weights;  // get all particles weight
 	for (int i = 0; i < num_particles; i++){
 		particles[i].weight /= weight_normalizer;
-		weights.push_back(particles[i].weight);
+		//weights.push_back(particles[i].weight);
+		weights[i] = particles[i].weight;
 	}
 }
 
 void ParticleFilter::resample() {
 	// Resample particles with replacement with probability proportional to their weight. 
-
-
 
 	// generate discrete distribution based on weights
 	default_random_engine gen;
