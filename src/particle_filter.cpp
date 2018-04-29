@@ -1,10 +1,14 @@
 /*
  * particle_filter.cpp
  *
- * Edited on: April 12, 2018
+ * Edited on: April 29, 2018
 
- * Author: Jie Wang & Tiffany Huang 
+ * Author: Tiffany Huang & Jie Wang 
+
+ * Debug process: https://discussions.udacity.com/t/car-estimations-kept-rotating/669874
+
  */
+
 
 #include <random>
 #include <algorithm>
@@ -27,7 +31,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// x, y, theta and their uncertainties from GPS) and all weights to 1. 
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
-	num_particles = 10;
+	num_particles = 20;
 
 	// generate normal distributions for x, y, and theta 
 
@@ -92,7 +96,8 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 		// adding random Gaussian noise (sensor noise) to the predicted particle states
 		normal_distribution<double> N_x(new_x, std_pos[0]);
 		normal_distribution<double> N_y(new_y, std_pos[1]);
-		normal_distribution<double> N_theta(new_theta, std_pos[1]);
+		//normal_distribution<double> N_theta(new_theta, std_pos[1]);
+		normal_distribution<double> N_theta(new_theta, std_pos[2]);
 
 		particles[i].x = N_x(gen);
 		particles[i].y = N_y(gen);
@@ -185,6 +190,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		double sig_y = std_landmark[1];
 		double obs_weight = 1.0;
 
+		/*
 		for (int i = 0; i < observations_map.size(); i++){
 			double obs_x = observations_map[i].x;
 			double obs_y = observations_map[i].y;
@@ -204,6 +210,26 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				}
 			}
 		}
+		*/
+		for (int k = 0; k < observations_map.size(); k++){
+			double obs_x = observations_map[k].x;
+			double obs_y = observations_map[k].y;
+			double obs_id = observations_map[k].id;
+
+			for (int l = 0; l < range_landmarks.size(); l++){
+				double range_x = range_landmarks[l].x;
+				double range_y = range_landmarks[l].y;
+				double range_id = range_landmarks[l].id;
+
+				if (obs_id == range_id){
+					double x_part = pow((obs_x - range_x), 2) / (2 * sig_x * sig_x);
+					double y_part = pow((obs_y - range_y), 2) / (2 * sig_y * sig_y);
+					double obs_weight = exp(-(x_part + y_part)) / (2 * M_PI * sig_x * sig_y);
+
+					particles[i].weight *= obs_weight;
+				}
+			}
+		}		
 
 		weight_normalizer += particles[i].weight;
 	}
