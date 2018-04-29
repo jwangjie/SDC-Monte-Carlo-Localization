@@ -3,7 +3,7 @@
 ## Project Overview
 The robot has been kidnapped and transported to a new location. Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
+In this project, a 2 dimensional particle filter in C++ was implemented. The particle filter was given a map and some initial localization information (analogous to what a GPS would provide). At each time step the filter will also get observation and control data. 
 
 ## Implementing the Particle Filter
 The directory structure of this repository is as follows:
@@ -20,7 +20,12 @@ root
 |   |   
 |   |   map_data.txt
 |   
-|   
+|___data
+|   |   
+|   |   Debug Process.pdf
+|   |   Running Simulator on windows and Code on Ubuntu.pdf
+|   |   demo.gif
+|
 |___src
     |   helper_functions.h
     |   main.cpp
@@ -35,7 +40,7 @@ root
 3. ./run.sh
 4. Run the [simulator](https://github.com/udacity/self-driving-car-sim/releases)
 
-tricks: [Running Simulator on windows and Code on Ubuntu](https://discussions.udacity.com/t/running-simulator-on-windows-and-code-on-ubuntu/255869) or [file](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/doc/Running%20Simulator%20on%20windows%20and%20Code%20on%20Ubuntu.pdf).
+tricks: [Running Simulator on windows and Code on Ubuntu](https://discussions.udacity.com/t/running-simulator-on-windows-and-code-on-ubuntu/255869) or [file](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/doc/Running%20Simulator%20on%20windows%20and%20Code%20on%20Ubuntu.pdf)
 ## Simulation Results
 [![demo_gif](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/doc/demo.gif)](https://youtu.be/nCiF10BMMfk)
 
@@ -48,7 +53,7 @@ tricks: [Running Simulator on windows and Code on Ubuntu](https://discussions.ud
     * The real-time pose estimation of the vehicle: the blue circle (estimated location) with an black arrow (estimated orientation) inside 
 
 * Ground truth: 
-    * The blue car is the ground truth of the pose of the car. 
+    * The blue car is the ground truth of the pose of the car
     
 ## Resources
 A good explanation [writing](https://github.com/sohonisaurabh/CarND-Kidnapped-Vehicle-Project) of MCL. 
