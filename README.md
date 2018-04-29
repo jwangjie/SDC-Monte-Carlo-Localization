@@ -3,7 +3,7 @@
 ## Project Overview
 The robot has been kidnapped and transported to a new location. Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
 
-In this project, a 2 dimensional particle filter in C++ was implemented. The particle filter was given a map and some initial localization information (analogous to what a GPS would provide). At each time step the filter will also get observation and control data. 
+In this project, a 2-dimensional particle filter in C++ was implemented. The particle filter was given a map and some initial localization information (analogous to what a GPS would provide). At each time step, the filter will also get observation and control data. 
 
 ## Implementing the Particle Filter
 The directory structure of this repository is as follows:
@@ -50,12 +50,12 @@ tricks: [Running Simulator on windows and Code on Ubuntu](https://discussions.ud
     * noisy landmark observations at each timestamp during the car moving
 
 * Outputs: 
-    * The real-time pose estimation of the vehicle: the blue circle (estimated location) with an black arrow (estimated orientation) inside 
+    * The real-time pose estimation of the vehicle: the blue circle (estimated location) with a black arrow (estimated orientation) inside 
 
 * Ground truth: 
     * The blue car is the ground truth of the pose of the car
     
 ## Resources
 A good explanation [writing](https://github.com/sohonisaurabh/CarND-Kidnapped-Vehicle-Project) of MCL. 
-Note: The sequence of the step 4 (Update step) implementation is not proper. Refer to my [code](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/src/particle_filter.cpp) comments. 
+Note: The sequence of step 4 (Update step) implementation is not proper. Refer to my [code](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/src/particle_filter.cpp) comments. 
 
