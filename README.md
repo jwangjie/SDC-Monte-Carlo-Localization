@@ -42,6 +42,9 @@ root
 
 tricks: [Running Simulator on windows and Code on Ubuntu](https://discussions.udacity.com/t/running-simulator-on-windows-and-code-on-ubuntu/255869) or [file](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/doc/Running%20Simulator%20on%20windows%20and%20Code%20on%20Ubuntu.pdf)
 ## Simulation Results
+
+View the whole video by clicking the GIF.
+
 [![demo_gif](https://github.com/jwangjie/SDC-Monte-Carlo-Localization/blob/master/doc/demo.gif)](https://youtu.be/nCiF10BMMfk)
 
 * Inputs:
